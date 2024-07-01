@@ -2,36 +2,26 @@
     overflow:hidden;
 }
 
-/* #html::-webkit-scrollbar {
-    display: none;
-}
-#server-page-container {
-    display:flex;
-    overflow-y: hidden scroll;
-}  */
-
 .server-page {
     display: grid;
     position: fixed;
-    grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 125px;
-    /* sizing for navbar may be off due to grid size being larger
-    than the chat and server name bar */
-    /* grid-template-rows: 50px 400px 400px 90px ; */
-    grid-template-rows: 50px 400px 400px 400px 300px;
+    width: 100%;
+    grid-template-columns: 52px 80px 120px 1fr 1fr 1fr 1fr 1fr 1fr 130px 150px;
+    /* grid-template-columns: 1.25fr 1.25fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr 2fr 2fr; */
+    grid-template-rows: 6vh 1fr 1fr 1fr;
     grid-template-areas:
     "name name name channel-name channel-name channel-name channel-name channel-name channel-name options options"
     "channels channels channels chat chat chat chat chat chat users users"
     "channels channels channels chat chat chat chat chat chat users users"
-    "channels channels channels chat chat chat chat chat chat users users"
-    "channels channels channels msg msg msg msg msg msg users users";
+    "channels channels channels chat chat chat chat chat chat users users";
+    /* "channels channels channels msg msg msg msg msg msg users users"; */
     height: 100vh;
+
 }
 
 .name {
     display: flex;
     align-items: center;
-    /* padding-left: 10px; */
-    /* padding-top: 15px; */
     background-color: #2b3352;
     grid-area: name;
     color: #dcddde;
@@ -43,30 +33,28 @@
     color: #dcddde;
     background-color: #2e3236;
     padding-left: 5px;
+    justify-content: space-around;
 }
 
 .name:hover {
     background-color: #34373C;
 }
 
-#delete-server {
+.server-btn {
     background-color: #36393F;
     border: none;
     border: 1px solid black;
     border-radius: 5px;
-    position: absolute;
-    left: 180px;
     transition: background-color .2s;
     cursor: pointer;
-
 }
 
-#delete-server a {
+.server-btn a {
     text-decoration: none;
     color: #BBBABD;
 }
 
-#delete-server:hover {
+.server-btn:hover {
     background-color: #444850;
 }
 
@@ -75,21 +63,10 @@
     grid-area: channels;
     height: 100%;
     padding-top: 20px;
-    overflow-y: hidden scroll;
-    /* position: fixed;
-    left: 72px;
-    top: 50px;
-    width: 15%; */
+    overflow-y: auto;
 }
-/*
-.categories::-webkit-scrollbar {
-    background-color: #2F3136;
-    width: 5px;
-} */
-
 
 .categories li {
-    /* list-style-image: url("../../images/1247106.png"); */
     list-style-type: none;
 }
 
@@ -100,34 +77,21 @@
 .chat-div {
     background-color: #32353a;
     grid-area: chat;
-    width: 100%;
-    height: 850px;
-    color: #dcddde;
-    overflow-y: auto;
-}
-.chat-div {
-    overflow-y: scroll;
     position: relative;
-    overflow-x: hidden;
-    /* left: 32px;
-    top: 50px; */
+}
+
+.chat-div::-webkit-scrollbar {
+    background-color: #32353a;
 }
 
 .channel {
     color: #8e9296;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 15px;
     text-decoration: none;
-
 }
 
 .text-channels a{
     text-decoration: none;
-}
-
-li.channel {
-    font-size: 14px;
-    width: 50px;
 }
 
 .text-channels {
@@ -135,17 +99,20 @@ li.channel {
     padding-bottom: 5px;
 }
 
+.channel .text-channels li {
+    color: #8e9296;
+    font-size: 14px;
+    list-style: none;
+    margin: 7px 0px;
+}
+
+.channel .text-channels li:hover {
+    color: #b0b5b9;
+}
+
 .li.channel:hover {
     background-color: #6f7580;
     color: white;
-}
-
-#channel {
-    /* list-style-image: url("../../images/1247106.png"); */
-    color: #8e9296;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 5px;
 }
 
 #channel:hover {
@@ -157,13 +124,43 @@ li.channel {
 }
 
 .channel-name {
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
     background-color: #32353a;
     grid-area: channel-name;
     border-bottom: 1px solid rgb(16, 16, 16);
     box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
     padding-left: 20px;
     padding-top: 17px;
+    align-items: baseline;
+}
+
+.create-channel-btn {
+    margin-right: 10px;
+    background-color: #7289da;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #f9fbfe;
+    padding: 3px 6px;
+}
+
+.create-channel-btn:active {
+    transform: scale(.98);
+}
+
+.leave-server-btn {
+    margin-right: 10px;
+    background-color: #e43e44;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    color: #fff5fd;
+    padding: 2px 6px;
+}
+
+.leave-server-btn:active {
+    transform: scale(.98);
 }
 
 .channel-text {
@@ -181,27 +178,6 @@ li.channel {
     box-shadow: rgba(4, 4, 5, 0.2) 0px 1px 0px;
 }
 
-
-.chat-div::-webkit-scrollbar {
-    background-color: #32353a;
-}
-/* #top_level_chat {
-    position: relative;
-} */
-
-#top_level {
-    height: 90%;
-    grid-area: chat;
-    width: 1500px;
-    overflow-wrap: normal;
-}
-
-#top_level_chat {
-    position: fixed;
-    bottom: 15px;
-    left: 3;
-    overflow-y: hidden;
-}
 .sqr {
     grid-area: chat;
     background-color: #36393F;
@@ -209,7 +185,7 @@ li.channel {
 
 .members-div {
     grid-area: users;
-    background-color: #32353a;
+    background-color: #2F3136;
     height: 100%;
 }
 
@@ -247,40 +223,34 @@ li.channel {
  /* Edit/Delete modal */
  #modal_channel {
     width: 40%;
-    height: 45%;
-    background-color: rgb(226, 224, 224);
+    background-color: #37393f;
     margin: auto;
     margin-top: 21vh;
     border-radius: 5px;
     outline: none;
-    padding: 2px;
+    padding: 10px 0px 20px 0px;
     text-align: center;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    color: white;
+ }
+
+ #modal_channel input:focus {
+    outline: none;
  }
 
  .edit-label {
      font-size: 1.4em;
- }
-
- .form_input {
-    width: 100%;
-    color: black;
-    border: none;
-    height: 35px;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    margin: 5px auto;
+     margin: 12px 0px;
  }
 
  #edit-form_button {
     width: 100%;
     margin-top: 20px;
-    background-color: #747F8D;
+    background-color: #5965f2;
     color: white;
     outline: none;
     border: none;
@@ -291,13 +261,13 @@ li.channel {
  }
 
  #edit-form_button:hover {
-    background-color: #68727F;
+    background-color: #535fe2;
  }
 
  .delete-btn_channel {
     width: 100%;
     margin-top: 10px;
-    background-color: #6289bd;
+    background-color: #e84645;
     color: white;
     outline: none;
     border: none;
@@ -308,5 +278,5 @@ li.channel {
  }
 
 .delete-btn_channel:hover {
-    background-color: #577aa8;
+    background-color: #d63f3f;
 }

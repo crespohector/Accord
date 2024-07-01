@@ -154,13 +154,7 @@
 
 #create_server_modal {
     width: 400px;
-    height: 280px;
-    background-color: white;
-    margin: auto;
-    margin-top: 21vh;
-    border-radius: 5px;
     outline: none;
-    /* padding: 10px; */
 }
 
 #create_server_modal h1 {
@@ -174,20 +168,11 @@
     padding-bottom: 15px;
 }
 
-#create_server_modal form {
-    margin-left: 15px;
-}
-
 .form_label {
     width:300px;
     margin-top: 10px;
     margin-bottom: 3px;
-    color: #4F5660;
-}
-
-.form_input {
-    width: 360px;
-    transition: outline-color .3s;
+    color: #828282;
 }
 
 .form_input:focus {

@@ -1,33 +1,14 @@
 from app.models import db, User, Server
-from faker import Faker
 
-faker = Faker()
 # Adds a demo user, you can add other users here if you want
 def seed_useserv():
 
-    userone = User(username='Demo2', email='demo2@aa.io', password='password')
-    usertwo = User(username='Demo3', email='demo3@aa.io', password='password')
-    userthree = User(username='Demo4', email='demo4@aa.io', password='password')
-    userfour = User(username='Demo5', email='demo5@aa.io', password='password')
+    demo_user = User.query.get(1)
+    server1 = Server.query.get(1)
 
-    usertree = User.query.get(2)
-    serverone = Server(server_name="Test", img_url=faker.image_url())
+    demo_user.servers.append(server1)
 
-    usertree.servers.append(serverone)
-
-    userone.servers.append(serverone)
-    # serverone.users.append(userone)
-
-    usertwo.servers.append(serverone)
-    userthree.servers.append(serverone)
-    userfour.servers.append(serverone)
-    # serverone.users.append(usertwo)
-
-
-    db.session.add(userone)
-    # db.session.add(usertwo)
-    # db.session.add(serverone)
-
+    db.session.add(demo_user)
     db.session.commit()
 
 # Uses a raw SQL query to TRUNCATE the users table.

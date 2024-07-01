@@ -2,11 +2,10 @@
   /* width: 100%;
   height: 100%; */
   /* Set rules to fill background */
-  min-height: 100%;
+  min-height: 100vh;
 
   /* Set up proportionate scaling */
   width: 100%;
-  height: auto;
 
   /* Set up positioning */
   position: fixed;
@@ -22,7 +21,6 @@
 
 #login__container {
    width: 480px;
-   height: 440px;
    background-color: #36393F;
    border-radius: 5px;
    box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
@@ -56,7 +54,7 @@ form input, label {
 }
 
 #login__form input {
-   width: 382px;
+   width: 100%;
    height: 40px;
    border-radius: 3px;
    border: 1px solid #222428;
@@ -82,10 +80,9 @@ form input, label {
    margin-top:12px;
 }
 
-#login__form button {
-   display: block;
-   width: 395px;
-   height: 40px;
+.button {
+   width: 100%;
+   padding: 12px 0px;
    margin: 0;
    border-radius: 3px;
    background-color: #7289DA;
@@ -94,6 +91,16 @@ form input, label {
    transition-timing-function: ease;
    border-style: none;
    margin-top:16px;
+   cursor: pointer;
+}
+
+.demo-btn-container {
+   display: flex;
+   justify-content: space-between;
+}
+
+.demo-btn-container button {
+   width: 45%;
 }
 
 #login__form button:hover {
@@ -116,10 +123,4 @@ form input, label {
    text-decoration: none;
    color: #02ACED;
    margin-left: 5px;
-}
-
-/*Login Btn and Demo User Btn */
-#button1,
-#button2 {
-   cursor:pointer;
 }

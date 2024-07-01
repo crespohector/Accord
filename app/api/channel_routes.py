@@ -38,13 +38,16 @@ def post_channel():
     '''
     form = ChannelForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-
-    print('-------FORM DATA-------: ', form.data)
+    title = form.data['title']
 
     if form.validate_on_submit():
+
+        if "#" not in title:
+            title  = "#" + title
+
         channel = Channel(
-            title=form.data['title'],
-            category_id=form.data['category_id'],
+            title=title,
+            category_id=1,
             server_id=form.data['server_id']
         )
         db.session.add(channel)
@@ -70,7 +73,10 @@ def edit_channel(id):
     EDIT a channel
     '''
     form = ChannelForm()
+    title = form.data['title']
     channel = Channel.query.get(id)
-    channel.title = form.data['title']
+    if "#" not in title:
+        title = "#" + title
+    channel.title = title
     db.session.commit()
     return channel.to_dict()

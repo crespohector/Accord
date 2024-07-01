@@ -9,10 +9,8 @@ function UserBar(){
 
    return (
       <div id="userbar__container">
-         <div id="userbar">
             {user.username}
             <LogoutButton />
-         </div>
       </div>
    )
 }

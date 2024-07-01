@@ -4,11 +4,17 @@
    height: 100%;
    display: flex;
    justify-content: center;
+   align-items: center;
+}
+
+#delete__container form {
+   background-color: #2d2d2f;
+   border-radius: 6px;
+   padding: 20px;
 }
 
 #form__container {
    margin-top: 15vh;
-   background-color: #2F3136;
    width: 450px;
    height: 125px;
    display: flex;
@@ -49,4 +55,3 @@
    color: #BBBABD;
    border-radius: 5px;
 }
-

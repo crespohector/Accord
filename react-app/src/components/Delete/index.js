@@ -9,41 +9,30 @@ function Delete() {
 
    let dispatch = useDispatch()
    let history = useHistory()
-
    const { id } = useParams();
-
    const server = useSelector((state) => {
-      return state.servers.current.server;
+      return state.servers.currentServer;
    });
-   
-   
+
    const deleteServ = (e) => {
       e.preventDefault();
-      dispatch(deleteServer(Number(id)))
+      dispatch(deleteServer(id))
       history.push("/")
    }
-   
+
    useEffect(() => {
-      dispatch(getServer(Number(id)))
+      dispatch(getServer(id))
     },[dispatch])
-
-    if(!server) return null;
-
-
-   // const server = servers[id]
-
 
    return(
       <div id="delete__container">
-         <div id="form__container">
             <form onSubmit={deleteServ}>
                <h1 id="server__question">Do you want to delete server {server?.name}?</h1>
                <button type="submit" id="delete" className="delete__buttons">Delete</button>
-               <NavLink to="/">
+               <NavLink to={`/servers/${server?.id}`}>
                   <button id="cancel" className="delete__buttons">Cancel</button>
                </NavLink>
             </form>
-         </div>
       </div>
    )
 }

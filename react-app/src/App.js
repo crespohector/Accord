@@ -12,7 +12,7 @@ import { authenticate } from "./store/session";
 import Chat from './components/Chat/Chat'
 import ServerPage from "./components/ServerPage"
 import Delete from './components/Delete';
-// import UserBar from './components/UserBar'
+import Update from "./components/Update";
 
 function App() {
   const user = useSelector(state => state.session.user)
@@ -32,7 +32,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      {user && (
+        <NavBar />
+      )}
     <main>
       <Switch>
         <Route path="/login" exact={true}>
@@ -59,7 +61,10 @@ function App() {
         <ProtectedRoute path="/servers/:id/delete" exact={true}>
           <Delete />
         </ProtectedRoute>
-        <ProtectedRoute path="/servers/:serverId/channel/:channelId" exact={true}>
+        <ProtectedRoute path="/servers/:id/update" exact={true}>
+          <Update />
+        </ProtectedRoute>
+        <ProtectedRoute path="/servers/:id/channel/:channelId" exact={true}>
           <ServerPage />
         </ProtectedRoute>
       </Switch>

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { login } from "../../store/session";
-import NavBar from "../Navbar/Navbar";
 
 import './LoginForm.css'
 
@@ -17,7 +16,13 @@ const LoginForm = () => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data.errors) {
-      setErrors(data.errors);
+      const arr = [];
+      data.errors.forEach(error => {
+        // "Email : email is invalid" => slice the error string after the ":"
+        const startIdx = error.indexOf(":") + 2;
+        arr.push(error.slice(startIdx));
+      })
+      setErrors(arr)
     }
   };
 
@@ -29,8 +34,8 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const demoLogin = async (e) => {
-    const email = 'demo@aa.io';
+  const demoLogin = async (e, demoUser1 = true) => {
+    const email = demoUser1 ? 'demo@aa.io' : "jane@yahoo.com";
     const password = 'password';
     e.preventDefault();
     setErrors([]);
@@ -39,25 +44,19 @@ const LoginForm = () => {
       setErrors(data.errors);
     }
   }
-
   if (user) {
     return <Redirect to="/" />;
   }
 
-
-
   return (
     <div id="login__background">
-      {/* <h1>Hello</h1> */}
       <div id="login__container">
         <h1 id="login__title">Welcome back!</h1>
         <h3 id="login__title--subtitle">We're so excited to see you again!</h3>
         <form onSubmit={onLogin} id="login__form">
-          <div>
-            {errors.map((error) => (
-              <div key={error}>{error}</div>
-            ))}
-          </div>
+          {errors.map((error, idx) => (
+            <h5 className="errors" key={idx}>{error}</h5>
+          ))}
           <div>
             <label htmlFor="email">Email</label>
             <input
@@ -65,6 +64,7 @@ const LoginForm = () => {
               type="text"
               value={email}
               onChange={updateEmail}
+              required
             />
           </div>
           <div>
@@ -74,10 +74,14 @@ const LoginForm = () => {
               type="password"
               value={password}
               onChange={updatePassword}
+              required
             />
           </div>
-          <button type="submit" id="button1">Login</button>
-          <button type="submit" id="button2" onClick={demoLogin}>Demo Login</button>
+          <button type="submit" className="button">Login</button>
+          <div className="demo-btn-container">
+            <button type="submit" className="button" onClick={demoLogin}>Login as Demo User</button>
+            <button type="submit" className="button" onClick={(e) => demoLogin(e, false)}>Login as Jane Ford</button>
+          </div>
           <div id="register__link">
             <p>Need an account?</p>
             <NavLink to="/sign-up">Register</NavLink>

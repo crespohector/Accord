@@ -16,8 +16,21 @@ const SignUpForm = () => {
 
   const onSignUp = async (e) => {
     e.preventDefault();
-    if (password === repeatPassword) {
-      await dispatch(signUp(username, email, password));
+    //check if passwords are mismatched
+    if (password !== repeatPassword) {
+      setErrors(["Passwords are mismatched"]);
+      return;
+    }
+    const res = await dispatch(signUp(username, email, password))
+    // check if errors property exist
+    if (res.errors) {
+      const arr = [];
+      res.errors.forEach(error => {
+        // "Email : email is invalid" => slice the error string after the ":"
+        const startIdx = error.indexOf(":") + 2;
+        arr.push(error.slice(startIdx));
+      })
+      setErrors(arr)
     }
   };
 
@@ -41,11 +54,7 @@ const SignUpForm = () => {
     const email = 'demo@aa.io';
     const password = 'password';
     e.preventDefault();
-    setErrors([]);
-    const data = await dispatch(login(email, password));
-    if (data.errors) {
-      setErrors(data.errors);
-    }
+    await dispatch(login(email, password));
   }
 
   if (user) {
@@ -56,6 +65,15 @@ const SignUpForm = () => {
     <div id="signup__background">
       <div id="signup__container">
         <h1 id="signup__title">Create an account</h1>
+
+        {errors.length > 0 &&
+          <div>
+            {errors.map((error, idx) => (
+              <h5 className="errors" key={idx}>{error}</h5>
+            ))}
+          </div>
+        }
+
         <form onSubmit={onSignUp} id="signup__form">
           <div>
             <label>User Name</label>
@@ -64,6 +82,7 @@ const SignUpForm = () => {
               name="username"
               onChange={updateUsername}
               value={username}
+              required
             ></input>
           </div>
           <div>
@@ -73,6 +92,7 @@ const SignUpForm = () => {
               name="email"
               onChange={updateEmail}
               value={email}
+              required
             ></input>
           </div>
           <div>
@@ -82,6 +102,8 @@ const SignUpForm = () => {
               name="password"
               onChange={updatePassword}
               value={password}
+              required
+              minLength={4}
             ></input>
           </div>
           <div>
@@ -92,10 +114,10 @@ const SignUpForm = () => {
               onChange={updateRepeatPassword}
               value={repeatPassword}
               required={true}
+              minLength={4}
             ></input>
           </div>
-          <button type="submit">Sign Up</button>
-          <button type="submit" id="demo__login" onClick={demoLogin}>Demo Login</button>
+          <button type="submit" className="button">Sign Up</button>
           <NavLink to="/login" id="login__link">Already have an account?</NavLink>
         </form>
       </div>
