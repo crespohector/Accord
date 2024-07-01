@@ -3,16 +3,14 @@
 FROM node:14 AS build-stage
 
 WORKDIR /react-app
-COPY react-app/package.json react-app/package-lock.json ./
+COPY react-app/. .
+
+ARG REACT_APP_BASE_URL
 
 RUN npm install
-
-COPY react-app .
-
 RUN npm run build
 
 # Build Flask App
-
 FROM python:3.8
 
 ARG FLASK_APP
@@ -28,16 +26,14 @@ EXPOSE 8000
 
 WORKDIR /var/www
 
-COPY requirements.txt .
+COPY . .
+# Copy built React app from previous stage
+COPY --from=build-stage /react-app/build/* app/static/
 
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
-# Copy built React app from previous stage
-COPY --from=build-stage /react-app/build app/static/
-
-COPY . .
-
+# run flask migrations
 RUN flask db upgrade
 RUN flask seed undo
 RUN flask seed all
