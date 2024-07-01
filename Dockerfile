@@ -5,7 +5,7 @@ FROM node:14 AS build-stage
 WORKDIR /react-app
 COPY react-app/. .
 
-ARG REACT_APP_BASE_URL
+# ARG REACT_APP_BASE_URL
 
 RUN npm install
 RUN npm run build
