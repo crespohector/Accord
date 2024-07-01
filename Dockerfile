@@ -1,31 +1,26 @@
-FROM node:12 AS build-stage
+FROM python:3.9.18-alpine3.18
 
-WORKDIR /react-app
-COPY react-app/. .
+RUN apk add build-base
 
-# You have to set this because it should be set during build time.
-# ENV REACT_APP_BASE_URL=https://accordapp.herokuapp.com
+RUN apk add postgresql-dev gcc python3-dev musl-dev
 
-# Build our React App
-RUN npm install
-RUN npm run build
-
-FROM python:3.8
-
-# Setup Flask environment
-ENV FLASK_APP=app
-ENV FLASK_ENV=production
-ENV SQLALCHEMY_ECHO=True
-
-EXPOSE 8000
+ARG FLASK_APP
+ARG FLASK_ENV
+ARG DATABASE_URL
+ARG SCHEMA
+ARG SECRET_KEY
 
 WORKDIR /var/www
-COPY . .
-COPY --from=build-stage /react-app/build/* app/static/
 
-# Install Python Dependencies
+COPY requirements.txt .
+
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
+
+COPY . .
+
+RUN flask db upgrade
+RUN flask seed all
 
 # Run flask environment
 CMD gunicorn --worker-class eventlet -w 1 app:app
