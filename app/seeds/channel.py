@@ -1,4 +1,4 @@
-from app.models import db, Channel
+from app.models import db, Channel, SCHEMA, environment
 import os
 
 # Adds a demo user, you can add other users here if you want
@@ -34,5 +34,8 @@ def seed_channel():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_channel():
-    db.session.execute('TRUNCATE channels RESTART IDENTITY CASCADE;')
+    if environment == "production":
+         db.session.execute(f"TRUNCATE table {SCHEMA}.channels RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table channels RESTART IDENTITY CASCADE;')
     db.session.commit()

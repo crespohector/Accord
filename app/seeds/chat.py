@@ -1,4 +1,4 @@
-from app.models import db, Chat
+from app.models import db, Chat, SCHEMA, environment
 from faker import Faker
 import random
 
@@ -20,5 +20,9 @@ def seed_chat():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_chat():
-    db.session.execute('TRUNCATE chats RESTART IDENTITY CASCADE;')
+
+    if environment == "production":
+         db.session.execute(f"TRUNCATE table {SCHEMA}.chats RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table chats RESTART IDENTITY CASCADE;')
     db.session.commit()

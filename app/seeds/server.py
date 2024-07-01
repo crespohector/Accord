@@ -1,4 +1,4 @@
-from app.models import db, Server, User
+from app.models import db, Server, User, SCHEMA, environment
 import os
 import random
 
@@ -35,5 +35,10 @@ def seed_serv():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_serv():
-    db.session.execute('TRUNCATE servers RESTART IDENTITY CASCADE;')
+
+    if environment == "production":
+         db.session.execute(f"TRUNCATE table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table servers RESTART IDENTITY CASCADE;')
+
     db.session.commit()

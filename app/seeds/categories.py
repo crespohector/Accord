@@ -1,4 +1,4 @@
-from app.models import db, Category
+from app.models import db, Category, SCHEMA, environment
 
 # Adds a demo user, you can add other users here if you want
 def seed_categories():
@@ -12,5 +12,8 @@ def seed_categories():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_categories():
-    db.session.execute('TRUNCATE categories RESTART IDENTITY CASCADE;')
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.categories RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table categories RESTART IDENTITY CASCADE;')
     db.session.commit()

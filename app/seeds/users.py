@@ -1,5 +1,5 @@
 from werkzeug.security import generate_password_hash
-from app.models import db, User
+from app.models import db, User, SCHEMA, environment
 from faker import Faker
 
 faker = Faker()
@@ -22,5 +22,10 @@ def seed_users():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_users():
-    db.session.execute('TRUNCATE users RESTART IDENTITY CASCADE;')
+
+    if environment == "production":
+         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table users RESTART IDENTITY CASCADE;')
+        
     db.session.commit()

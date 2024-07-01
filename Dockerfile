@@ -29,7 +29,7 @@ RUN pip install psycopg2
 COPY . .
 
 RUN flask db upgrade
-# RUN flask seed undo
+RUN flask seed undo
 RUN flask seed all
 
 # Run flask environment

@@ -1,4 +1,4 @@
-from app.models import db, User, Server
+from app.models import db, User, Server, SCHEMA, environment
 
 # Adds a demo user, you can add other users here if you want
 def seed_useserv():
@@ -16,5 +16,10 @@ def seed_useserv():
 # TRUNCATE Removes all the data from the table, and resets
 # the auto incrementing primary key
 def undo_useserv():
-    db.session.execute('TRUNCATE servers RESTART IDENTITY CASCADE;')
+
+    if environment == "production":
+         db.session.execute(f"TRUNCATE table {SCHEMA}.servers RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute('TRUNCATE table servers RESTART IDENTITY CASCADE;')
+
     db.session.commit()
