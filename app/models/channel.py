@@ -1,12 +1,15 @@
-from .db import db
+from .db import db, SCHEMA, environment, add_prefix_for_prod
 
 class Channel(db.Model):
     __tablename__ = 'channels'
 
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(15), nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey("categories.id"),nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey("servers.id"), nullable=False)
+    category_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("categories.id")),nullable=False)
+    server_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("servers.id")), nullable=False)
 
     #references for data going in
     category = db.relationship("Category", back_populates="channels")
