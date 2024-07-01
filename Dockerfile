@@ -1,14 +1,23 @@
-FROM python:3.9.18-alpine3.18
+FROM node:12 AS build-stage
 
-RUN apk add build-base
+WORKDIR /react-app
+COPY react-app/. .
 
-RUN apk add postgresql-dev gcc python3-dev musl-dev
+RUN npm install
+RUN npm run build
+
+FROM python:3.8
 
 ARG FLASK_APP
 ARG FLASK_ENV
 ARG DATABASE_URL
 ARG SCHEMA
 ARG SECRET_KEY
+ARG REACT_APP_BASE_URL
+
+ENV SQLALCHEMY_ECHO=True
+
+EXPOSE 8000
 
 WORKDIR /var/www
 
@@ -20,6 +29,7 @@ RUN pip install psycopg2
 COPY . .
 
 RUN flask db upgrade
+RUN flask seed undo
 RUN flask seed all
 
 # Run flask environment

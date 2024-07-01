@@ -97,5 +97,4 @@ def react_root(path):
 
 # at the bottom of the file, use this to run the app
 if __name__ == '__main__':
-    print('HIT--------------------')
     socketio.run(app)
