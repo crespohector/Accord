@@ -34,7 +34,7 @@ RUN pip install -r requirements.txt
 RUN pip install psycopg2
 
 # Copy built React app from previous stage
-COPY --from=build-stage /react-app/build /var/www/react-app/build
+COPY --from=build-stage /react-app/build app/static/
 
 COPY . .
 
