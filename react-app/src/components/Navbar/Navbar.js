@@ -43,8 +43,9 @@ const NavBar = () => {
       setErrors(errorArr);
       return;
     }
-    await dispatch(addServer(serverImg, server_name))
-    setOpen(false)
+    await dispatch(addServer(serverImg, server_name));
+    setOpen(false);
+    setErrors([]);
   }
 
   useEffect(() => {
