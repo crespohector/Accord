@@ -2,10 +2,11 @@
 
 FROM node:14 AS build-stage
 
+ARG REACT_APP_BASE_URL
+ENV REACT_APP_BASE_URL=$REACT_APP_BASE_URL
+
 WORKDIR /react-app
 COPY react-app/. .
-
-ARG REACT_APP_BASE_URL
 
 RUN npm install
 RUN npm run build
