@@ -36,7 +36,7 @@ def post_server():
     db.session.add(server)
     db.session.commit()
 
-    new_channel = Channel(title="room 1", category_id=1, server_id=server.id)
+    new_channel = Channel(title="#room 1", category_id=1, server_id=server.id)
     db.session.add(new_channel)
     db.session.commit()
 
